@@ -8,8 +8,10 @@ import java.util.HashSet;
 public class Statistics {
     private double totalTraffic;
     private LocalDateTime minTime, maxTime;
-    private HashSet<String> refererSet = new HashSet<>();
+    private HashSet<String> existingPagesSet = new HashSet<>();
+    private HashSet<String> errorPagesSet = new HashSet<>();
     private HashMap<String, Integer> platformCount = new HashMap<>();
+    private HashMap<String, Integer> browserCount = new HashMap<>();
 
     public void addEntry(LogEntry logEntry) {
         UserAgent uAgent = new UserAgent(logEntry.userAgent);
@@ -20,7 +22,11 @@ public class Statistics {
         }
 
         if (logEntry.responseCode == 200) {
-            refererSet.add(logEntry.referer);
+            existingPagesSet.add(logEntry.path);
+        }
+
+        if (logEntry.responseCode == 404) {
+            errorPagesSet.add(logEntry.path);
         }
 
         if (platformCount.containsKey(uAgent.platform)) {
@@ -28,10 +34,20 @@ public class Statistics {
         } else {
             platformCount.put(uAgent.platform, 1);
         }
+
+        if (browserCount.containsKey(uAgent.browser)) {
+            browserCount.put(uAgent.browser, browserCount.get(uAgent.browser) + 1);
+        } else {
+            browserCount.put(uAgent.browser, 1);
+        }
     }
 
     public HashSet getAllExistingPages() {
-        return refererSet;
+        return existingPagesSet;
+    }
+
+    public HashSet getAllErrorPages() {
+        return errorPagesSet;
     }
 
     public HashMap getPlatformRate() {
@@ -50,6 +66,24 @@ public class Statistics {
         }
 
         return platformRate;
+    }
+
+    public HashMap getBrowserRate() {
+        int sumAllBrowser = 0;
+        HashMap<String, Double> browserRate = new HashMap<>();
+        double currentRate = 0.00;
+
+        for (int value : browserCount.values()) {
+            sumAllBrowser += value;
+        }
+
+        for (String key : browserCount.keySet()) {
+            currentRate = browserCount.get(key).doubleValue() / sumAllBrowser;
+            currentRate = Math.round(currentRate * 100.00) / 100.00;
+            browserRate.put(key, currentRate);
+        }
+
+        return browserRate;
     }
 
     public double getTrafficRate() {

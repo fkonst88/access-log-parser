@@ -17,9 +17,11 @@ public class UserAgent {
             this.browser = "Firefox";
         } else if (line.toLowerCase().contains("chrome") & line.toLowerCase().contains("safari")) {
             this.browser = "Chrome";
-        } else if (line.toLowerCase().contains("OPR") || line.toLowerCase().contains("opera")) {
+        } else if (line.toLowerCase().contains("safari") & !line.toLowerCase().contains("chrome")) {
+            this.browser = "Safari";
+        } else if (line.toLowerCase().contains("opr") || line.toLowerCase().contains("opera")) {
             this.browser = "Opera";
-        } else if (line.toLowerCase().contains("Edg")) {
+        } else if (line.toLowerCase().contains("edg")) {
             this.browser = "Edge";
         } else {
             this.browser = "other";

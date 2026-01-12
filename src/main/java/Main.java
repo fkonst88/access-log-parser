@@ -64,8 +64,10 @@ public class Main {
                 System.out.println("minTime - " + stat.getMinTime());
                 System.out.println("maxTime - " + stat.getMaxTime());
                 System.out.println("объем часового трафика - " + stat.getTrafficRate());
-                System.out.println("все существующие страницы - " + stat.getAllExistingPages());
+                //System.out.println("все существующие страницы - " + stat.getAllExistingPages());
+                //System.out.println("все НЕ существующие страницы - " + stat.getAllErrorPages());
                 System.out.println("статистика ОС - " + stat.getPlatformRate());
+                System.out.println("статистика браузеров - " + stat.getBrowserRate());
                 //System.out.println("TrafficRate - " + st.getTrafficRate());
                 //System.out.println("Доля запросов YandexBot - " + fractionYandexBot + " %, общее количество запросов - " + sumYandexBot);
                 //System.out.println("Доля запросов Googlebot - " + fractionGooglebot + " %, общее количество запросов - " + sumGooglebot);
