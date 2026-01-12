@@ -42,7 +42,7 @@ public class Main {
                         int length = line.length();
                         if (length > 1024) throw new RuntimeException("количество символов в строке первышает 1024");
                         LogEntry log = new LogEntry(line);
-                        UserAgent uAgent = new UserAgent(log.userAgent);
+                        //UserAgent uAgent = new UserAgent(log.userAgent);
                         //if (userAgent.contains("YandexBot")) sumYandexBot++;
                         //if (userAgent.contains("Googlebot")) sumGooglebot++;
                         stat.addEntry(log);
@@ -63,7 +63,9 @@ public class Main {
                 System.out.println("общее количество строк в файле - " + lineCount);
                 System.out.println("minTime - " + stat.getMinTime());
                 System.out.println("maxTime - " + stat.getMaxTime());
-                System.out.println("trafficRate - " + stat.getTrafficRate());
+                System.out.println("объем часового трафика - " + stat.getTrafficRate());
+                System.out.println("все существующие страницы - " + stat.getAllExistingPages());
+                System.out.println("статистика ОС - " + stat.getPlatformRate());
                 //System.out.println("TrafficRate - " + st.getTrafficRate());
                 //System.out.println("Доля запросов YandexBot - " + fractionYandexBot + " %, общее количество запросов - " + sumYandexBot);
                 //System.out.println("Доля запросов Googlebot - " + fractionGooglebot + " %, общее количество запросов - " + sumGooglebot);
