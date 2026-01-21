@@ -2,6 +2,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,8 +22,11 @@ public class Statistics {
     private HashMap<String, Integer> platformCount = new HashMap<>();
     //частота встречаемости каждого браузера
     private HashMap<String, Integer> browserCount = new HashMap<>();
-    //средняя посещаемость одним пользователем
+    //посещаемость одним пользователем
     private HashMap<String, Integer> uniqueIpCount = new HashMap<>();
+    //пиковая посещаемость сайта (в секунду)
+    private HashMap<String, Integer> visitPerSecondCount = new HashMap<>();
+    private HashSet<String> refererDomenSet = new HashSet<>();
     //общее количество ошибочных запросов
     public int errorResponce = 0;
 
@@ -39,19 +44,30 @@ public class Statistics {
             } else {
                 uniqueIpCount.put(logEntry.ipAddr, 1);
             }
+            //считаем количество посещений за одну каждую секунду при условии, что это не bot
+            if (visitPerSecondCount.containsKey(logEntry.time.toString())) {
+                visitPerSecondCount.put(logEntry.time.toString(), visitPerSecondCount.get(logEntry.time.toString()) + 1);
+            } else {
+                visitPerSecondCount.put(logEntry.time.toString(), 1);
+            }
         }
         //определяем минимальное и максимальное время лога
         if (logEntry.time != null) {
             if (logEntry.time.isBefore(this.minTime)) this.minTime = logEntry.time;
             if (logEntry.time.isAfter(this.maxTime)) this.maxTime = logEntry.time;
         }
-        //считаем количество существующих страниц сайта
+        //собираем список существующих страниц сайта
         if (logEntry.responseCode == 200) {
             existingPagesSet.add(logEntry.path);
         }
-        //считаем количество несуществующих страниц сайта
+        //собираем список несуществующих страниц сайта
         if (logEntry.responseCode == 404) {
             errorPagesSet.add(logEntry.path);
+        }
+        //собираем список доменов для всех referer-ов
+        if (logEntry.referer.contains("/")){
+            String[] tmpArr = logEntry.referer.split("/");
+            refererDomenSet.add(tmpArr[2]);
         }
         //считаем количество ответов с ошибкой
         if (logEntry.responseCode >= 400 && logEntry.responseCode <= 599) this.errorResponce ++;
@@ -76,6 +92,10 @@ public class Statistics {
 
     public HashSet getAllErrorPages() {
         return errorPagesSet;
+    }
+
+    public HashSet getRefererDomenSet() {
+        return refererDomenSet;
     }
 
     public HashMap getPlatformRate() {
@@ -112,6 +132,14 @@ public class Statistics {
         //средняя посещаемость одним пользователем
         //System.out.println("this.totalUserVisit - " + this.totalUserVisit + " uniqueIpCount - " + uniqueIpCount);
         return Math.round(this.totalUserVisit / uniqueIpCount.size() * 100.00) / 100.00;
+    }
+
+    public int getVisitPerSecondMax(){
+        return Collections.max(visitPerSecondCount.values());
+    }
+
+    public int getUniqueIpVisitMax(){
+        return Collections.max(uniqueIpCount.values());
     }
 
     public double getUserVisitRate() {

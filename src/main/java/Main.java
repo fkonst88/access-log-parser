@@ -75,7 +75,9 @@ public class Main {
                 System.out.println("статистика ОС - " + stat.getPlatformRate());
                 System.out.println("статистика браузеров - " + stat.getBrowserRate());
                 System.out.println("средняя посещаемость одним пользователем - " + stat.getUniqueIpRate());
-
+                System.out.println("пиковая посещаемость сайта (в секунду) - " + stat.getVisitPerSecondMax());
+                System.out.println("максимальня посещаемость одним пользователем - " + stat.getUniqueIpVisitMax());
+                //System.out.println("getRefererDomenSet - " + stat.getRefererDomenSet());
                 //System.out.println("TrafficRate - " + st.getTrafficRate());
                 //System.out.println("Доля запросов YandexBot - " + fractionYandexBot + " %, общее количество запросов - " + sumYandexBot);
                 //System.out.println("Доля запросов Googlebot - " + fractionGooglebot + " %, общее количество запросов - " + sumGooglebot);
