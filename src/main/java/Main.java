@@ -6,11 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+    //общее количество строк в файле
     public static int lineCount;
     public static void main(String[] args) {
-        //бесконечный цикл while, в котором в консоли запрашивается путь к файлу
+        // общее количество заданных путей к файлу
         int sumPath = 0;
+        //максимальная и минимальная длина строки в файле
         int maxLengthLine, minLengthLine;
+        //бесконечный цикл while, в котором в консоли запрашивается путь к файлу
         while (true) {
             System.out.println("Укажите путь к файлу:");
             String path = new Scanner(System.in).nextLine();
@@ -23,10 +26,10 @@ public class Main {
             boolean isDirectory = file.isDirectory();
             if (!isDirectory) {
                 lineCount = 0;
-                int sumYandexBot = 0;
-                int sumGooglebot = 0;
-                double fractionYandexBot = 0.0;
-                double fractionGooglebot = 0.0;
+                //int sumYandexBot = 0;
+                //int sumGooglebot = 0;
+                //double fractionYandexBot = 0.0;
+                //double fractionGooglebot = 0.0;
                 Statistics stat = new Statistics();
                 maxLengthLine = 0;
                 minLengthLine = 1024;
@@ -63,11 +66,16 @@ public class Main {
                 System.out.println("общее количество строк в файле - " + lineCount);
                 System.out.println("minTime - " + stat.getMinTime());
                 System.out.println("maxTime - " + stat.getMaxTime());
+                System.out.println("разница в часах между максимальным и минимальным временем в логах - " + stat.getDiffMinMaxTime());
                 System.out.println("объем часового трафика - " + stat.getTrafficRate());
+                System.out.println("количество посещений сайта за час - " + stat.getUserVisitRate());
+                System.out.println("количество ошибочных запросов в час - " + stat.getErrorResponceRate());
                 //System.out.println("все существующие страницы - " + stat.getAllExistingPages());
                 //System.out.println("все НЕ существующие страницы - " + stat.getAllErrorPages());
                 System.out.println("статистика ОС - " + stat.getPlatformRate());
                 System.out.println("статистика браузеров - " + stat.getBrowserRate());
+                System.out.println("средняя посещаемость одним пользователем - " + stat.getUniqueIpRate());
+
                 //System.out.println("TrafficRate - " + st.getTrafficRate());
                 //System.out.println("Доля запросов YandexBot - " + fractionYandexBot + " %, общее количество запросов - " + sumYandexBot);
                 //System.out.println("Доля запросов Googlebot - " + fractionGooglebot + " %, общее количество запросов - " + sumGooglebot);

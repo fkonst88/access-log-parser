@@ -1,6 +1,9 @@
 public class UserAgent {
+    //тип операционной системы
     final String platform;
+    //тип браузера
     final String browser;
+    final boolean bot;
 
     public UserAgent(String line) {
         if (line.toLowerCase().contains("windows")) {
@@ -26,6 +29,12 @@ public class UserAgent {
         } else {
             this.browser = "other";
         }
+
+        this.bot = line.toLowerCase().contains("bot");
+    }
+
+    public boolean isBot(){
+        return bot;
     }
 
     public String getPlatform() {
